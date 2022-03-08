@@ -1,0 +1,7 @@
+#This code enters an integer "num" into a binary file "binaryinfo.dat". This code will be appended to the stepper motor code, and "num" will be the angle the yagi is pointing at
+import pickle
+num=56#int(random.randint(101,250))
+
+file=open("binaryinfo.dat","wb")
+pickle.dump(num,file)
+file.close()
