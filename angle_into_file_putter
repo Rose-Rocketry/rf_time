@@ -1,6 +1,0 @@
-#This code enters an integer "num" into a binary file. This will be appended to the stepper motor code, and num will be the angle the Yagi is pointing at
-import pickle
-num=56565656565656565656565656565656565656565656
-file=open("binaryinfo.dat","wb")
-pickle.dump(num,file)
-file.close()
