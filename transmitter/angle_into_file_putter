@@ -1,6 +1,10 @@
 #This code enters an integer "num" into a binary file "binaryinfo.dat". This code will be appended to the stepper motor code, and "num" will be the angle the yagi is pointing at
-import pickle
 import random 
+import os
+
+if os.path.exists("binaryinfo.dat"):
+	print("Removing old transmission file.")
+	os.remove("binaryinfo.dat")
 
 angle= 128
 num= angle.to_bytes(2,'big')
@@ -9,4 +13,7 @@ terminator= bytes(1)
 file= open("binaryinfo.dat","w+b")
 file.write(terminator)
 file.write(num)
+
+print ("Transmitting angle " + angle".")
+
 file.close()
