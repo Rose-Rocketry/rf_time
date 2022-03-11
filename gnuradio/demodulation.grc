@@ -1,7 +1,6 @@
 options:
   parameters:
     author: ziemereg
-    catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
@@ -23,6 +22,7 @@ options:
     sizing_mode: fixed
     thread_safe_setters: ''
     title: psk_demodulation
+    window_size: ''
   states:
     bus_sink: false
     bus_source: false
@@ -38,7 +38,6 @@ blocks:
     comment: ''
     const_points: '[-1-1j, -1+1j, 1+1j, 1-1j]'
     dims: '1'
-    normalization: digital.constellation.AMPLITUDE_NORMALIZATION
     precision: '8'
     rot_sym: '4'
     soft_dec_lut: None
@@ -63,23 +62,22 @@ blocks:
     coordinate: [184, 12]
     rotation: 0
     state: enabled
-- name: blocks_null_source_0
-  id: blocks_null_source
+- name: blocks_file_sink_0
+  id: blocks_file_sink
   parameters:
     affinity: ''
     alias: ''
-    bus_structure_source: '[[0,],]'
-    comment: Needs to be replaced with funcube source on Pi
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_outputs: '1'
-    type: complex
+    append: 'False'
+    comment: ''
+    file: test_out
+    type: float
+    unbuffered: 'False'
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [88, 368.0]
+    coordinate: [1304, 420.0]
     rotation: 0
     state: true
 - name: blocks_uchar_to_float_0
@@ -94,7 +92,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [968, 432.0]
+    coordinate: [1040, 432.0]
     rotation: 0
     state: true
 - name: digital_constellation_decoder_cb_0
@@ -123,12 +121,12 @@ blocks:
     minoutbuf: '0'
     order: '2'
     use_snr: 'False'
-    w: 12k
+    w: '12000'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [264, 424.0]
+    coordinate: [272, 440.0]
     rotation: 0
     state: true
 - name: digital_diff_decoder_bb_0
@@ -136,7 +134,6 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    coding: digital.DIFF_DIFFERENTIAL
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -145,7 +142,29 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [768, 420.0]
+    coordinate: [824, 428.0]
+    rotation: 0
+    state: true
+- name: fcdproplus_fcdproplus_0
+  id: fcdproplus_fcdproplus
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    devicename: fncb
+    freq: '426000000'
+    if_gain: '10'
+    lnaswitch: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mixergainswitch: '1'
+    ppm: '0'
+    unit: '1000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 292.0]
     rotation: 0
     state: true
 - name: qtgui_const_sink_x_0
@@ -329,31 +348,17 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [544, 504.0]
+    coordinate: [392, 236.0]
     rotation: 0
-    state: true
-- name: virtual_sink_0
-  id: virtual_sink
-  parameters:
-    alias: ''
-    comment: ''
-    stream_id: output
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1152, 428.0]
-    rotation: 0
-    state: true
+    state: disabled
 
 connections:
-- [blocks_null_source_0, '0', digital_costas_loop_cc_0, '0']
-- [blocks_uchar_to_float_0, '0', virtual_sink_0, '0']
+- [blocks_uchar_to_float_0, '0', blocks_file_sink_0, '0']
 - [digital_constellation_decoder_cb_0, '0', digital_diff_decoder_bb_0, '0']
 - [digital_costas_loop_cc_0, '0', digital_constellation_decoder_cb_0, '0']
 - [digital_costas_loop_cc_0, '0', qtgui_const_sink_x_0, '0']
-- [digital_costas_loop_cc_0, '0', qtgui_const_sink_x_1, '0']
 - [digital_diff_decoder_bb_0, '0', blocks_uchar_to_float_0, '0']
+- [fcdproplus_fcdproplus_0, '0', digital_costas_loop_cc_0, '0']
 
 metadata:
   file_format: 1
